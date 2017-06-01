@@ -7,11 +7,12 @@ home:
 # legacy
 # product
 product:
-    path: /product/{productId}
+    path: /{categoryPath}/{productSlug}
     defaults: { _controller: AppBundle:Product:view }
-product_seo:
-    path: /p-{productId}-{slug}
-    defaults: { _controller: AppBundle:Product:view }
+    requirements:
+        categoryPath: ".+"
+        productSlug: "%slug.regexp%"
+    condition: "request.attributes.set('resolve_slug', true) or request.attributes.has('productId')"
 search:
     path: /recherche
     defaults: { _controller: AppBundle:Search:search }
@@ -93,52 +94,52 @@ create_return_form:
 # profile
 profile:
     path: /profile
-    defaults: { _controller: AppBundle:Profile:view }
+    defaults: { _controller:AppBundle:Profile:view }
     methods: [GET]
 profile_addresses:
     path: /profil/adresses
-    defaults: { _controller: AppBundle:Profile:addresses }
+    defaults: { _controller:AppBundle:Profile:addresses }
     methods: [GET]
 profile_orders:
     path: /profil/commandes
-    defaults: { _controller: AppBundle:Profile:orders }
+    defaults: { _controller:AppBundle:Profile:orders }
     methods: [GET]
 profile_returns:
     path: /profil/retours
-    defaults: { _controller: AppBundle:Profile:returns }
+    defaults: { _controller:AppBundle:Profile:returns }
     methods: [GET]
 
 login:
     path: /login
-    defaults: { _controller: AppBundle:Auth:Login }
+    defaults: { _controller:AppBundle:Auth:Login }
     methods: [POST]
 register:
     path: /register
-    defaults: { _controller: AppBundle:Auth:Register }
+    defaults: { _controller:AppBundle:Auth:Register }
     methods: [POST]
 updateUser:
     path: /update-user
-    defaults: { _controller: AppBundle:Profile:updateProfile }
+    defaults: { _controller:AppBundle:Profile:updateProfile }
     methods: [POST]
 
 logout:
     path: /logout
-    defaults: { _controller: AppBundle:Auth:Logout }
+    defaults: { _controller:AppBundle:Auth:Logout }
     methods: [GET]
 
 reset_password:
     path: /password
-    defaults: { _controller: AppBundle:Auth:resetPassword }
+    defaults: { _controller:AppBundle:Auth:resetPassword }
     methods: [POST]
 
 view_category:
-    path: /category/{categoryId}
-    defaults: { _controller: AppBundle:Category:View }
+    path: /{slug}
+    defaults: { _controller:AppBundle:Category:View }
     methods: [GET]
-view_category_seo:
-    path: /c-{categoryId}-{slug}
-    defaults: { _controller: AppBundle:Category:View }
-    methods: [GET]
+    requirements:
+        slug: "%slug.regexp%"
+    condition: "request.attributes.set('resolve_slug', true) or request.attributes.get('categoryId') > 0"
+
 cmsQuiSommesNous:
     path: /qui-sommes-nous
     defaults:

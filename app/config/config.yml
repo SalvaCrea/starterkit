@@ -6,6 +6,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    slug.regexp: !php/const:Wizaplace\Seo\SeoService::SLUG_REGEXP
     recaptcha.key: '6LcVkB0UAAAAAOiX8LA0mDX30VHvg8MCvqxoCIoc'
     recaptcha.secret: '6LcVkB0UAAAAAGbw1fOkuhXsCNsST18be2_ZEfgl'
 
@@ -40,21 +41,23 @@ twig:
     strict_variables: "%kernel.debug%"
 
 services:
-    http.client:
+    wizaplace.http.client:
         class: GuzzleHttp\Client
         arguments:
             -
                 base_uri: '%api.base_url%'
     Wizaplace\Catalog\CatalogService:
-        arguments: ['@http.client']
+        arguments: ['@wizaplace.http.client']
     Wizaplace\Basket\BasketService:
-        arguments: ['@http.client']
+        arguments: ['@wizaplace.http.client']
     Wizaplace\User\UserService:
-        arguments: ['@http.client']
+        arguments: ['@wizaplace.http.client']
     Wizaplace\Order\OrderService:
-        arguments: ['@http.client']
+        arguments: ['@wizaplace.http.client']
     Wizaplace\Image\ImageService:
-        arguments: ['@http.client']
+        arguments: ['@wizaplace.http.client']
+    Wizaplace\Seo\SeoService:
+        arguments: ['@wizaplace.http.client']
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
         autowire: true
@@ -64,3 +67,9 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+    app.decorating_router:
+        class:     AppBundle\Routing\SlugRouterWrapper
+        decorates: router
+        autowire: true
+        arguments: ['@app.decorating_router.inner']
+        public:    false
