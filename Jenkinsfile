@@ -6,7 +6,7 @@ pipeline {
             agent {
                 docker {
                     image 'composer'
-                    args '-v composer-cache:/composer -u 0:0'
+                    args '-v composer-cache-starterkit:/composer -u 0:0'
                 }
             }
             steps {
@@ -21,7 +21,7 @@ pipeline {
             agent {
                 docker {
                     image 'myprod/gulp'
-                    args '-u 0:0'
+                    args '-u 0:0 -v npm-cache-starterkit:/root/.npm'
                 }
             }
             steps {
