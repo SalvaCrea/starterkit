@@ -2,7 +2,7 @@ imports:
     - { resource: config.yml }
 
 parameters:
-    api.base_url: 'https://sandbox.wizaplace.com/api/v1/'
+    api.base_url: 'https://http-cache-api-zbcbaaq-xkfkh6ogwugdy.eu.platform.sh/api/v1/'
     googlemaps.api_key: 'AIzaSyC6pzFn22J8wZ9OMuYBButVwUKvmo5Jx1w' #@TODO: change me
     wizaplace.system_user_password: '%env(WIZAPLACE_SYSTEM_USER_PASSWORD)%'
     api.connect_timeout: '%env(API_CONNECT_TIMEOUT)%'
